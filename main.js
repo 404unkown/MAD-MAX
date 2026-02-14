@@ -2609,7 +2609,7 @@ break;
 
 const displayname = pushname;
 const username = m.sender.split('@')[0];
-const avatar = await client.profilePictureUrl(m.sender, 'image').catch(_ => 'https://files.catbox.moe/4gjzv5.png);
+const avatar = await client.profilePictureUrl(m.sender, 'image').catch(_ => 'https://files.catbox.moe/4gjzv5.png');
 const replies = "246";
 const retweets = "125";
 const theme = "dark";
