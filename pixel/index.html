@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBERDARK - Advanced WhatsApp Botd</title>
+  <meta name="description" content="CYBERDARK WhatsApp Bots . Powerful  WhatsApp bots with over 150+ commands including media downloaders, AI assistant, group management, and many more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#050505;--bg-s:#0a0a0a;--bg-c:#111;--bg-e:#181818;
+      --border:#1a1a1a;--border-h:#2a2a2a;
+      --white:#fafafa;--gray:#a0a0a0;--muted:#666;
+      --accent:#22c55e;--accent-d:rgba(34,197,94,0.1);--accent-h:#16a34a;
+      --blue:#3b82f6;--blue-d:rgba(59,130,246,0.1);
+      --purple:#a855f7;--purple-d:rgba(168,85,247,0.1);
+      --orange:#f97316;--orange-d:rgba(249,115,22,0.1);
+      --pink:#ec4899;--pink-d:rgba(236,72,153,0.1);
+      --cyan:#06b6d4;--cyan-d:rgba(6,182,212,0.1);
+      --red:#ef4444;--red-d:rgba(239,68,68,0.1);
+    }
+    body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+
+    /* Noise texture overlay */
+    body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+    /* Grid background */
+    .grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:64px 64px;z-index:0}
+
+    /* Glow effects */
+    .glow-green{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(34,197,94,0.06) 0%,transparent 70%);pointer-events:none}
+    .glow-blue{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,0.04) 0%,transparent 70%);pointer-events:none}
+
+    .container{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+    /* ---- NAV ---- */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid var(--border);background:rgba(5,5,5,0.8);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%)}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+    .nav-brand{display:flex;align-items:center;gap:12px}
+    .nav-logo{width:40px;height:40px;border-radius:10px;overflow:hidden;flex-shrink:0}
+    .nav-logo img{width:100%;height:100%;object-fit:cover;display:block}
+    .nav-name{font-size:15px;font-weight:700;letter-spacing:-0.02em}
+    .nav-name span{color:var(--muted);font-weight:400;margin-left:6px;font-size:13px}
+    .nav-links{display:flex;align-items:center;gap:32px}
+    .nav-links a{font-size:13px;color:var(--gray);font-weight:500;transition:color 0.15s}
+    .nav-links a:hover{color:var(--white)}
+    .nav-cta{display:flex;align-items:center;gap:12px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:none;border-radius:8px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all 0.15s;text-decoration:none}
+    .btn-primary{background:var(--white);color:#050505}
+    .btn-primary:hover{background:#e0e0e0}
+    .btn-ghost{background:transparent;color:var(--gray);border:1px solid var(--border)}
+    .btn-ghost:hover{background:rgba(255,255,255,0.05);color:var(--white);border-color:var(--border-h)}
+    .btn-accent{background:var(--accent);color:#050505}
+    .btn-accent:hover{background:var(--accent-h)}
+    .btn svg{width:16px;height:16px}
+    .mobile-menu{display:none;background:none;border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--white);cursor:pointer}
+    .mobile-menu svg{width:20px;height:20px}
+
+    /* ---- HERO ---- */
+    .hero{padding:140px 0 80px;position:relative}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px 6px 8px;background:var(--accent-d);border:1px solid rgba(34,197,94,0.15);border-radius:100px;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:32px}
+    .hero-badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    .hero h1{font-size:clamp(32px,5vw,64px);font-weight:800;letter-spacing:-0.04em;line-height:1.08;margin-bottom:20px}
+    .hero h1 .highlight{background:linear-gradient(135deg,var(--accent),#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:16px;color:var(--gray);line-height:1.6;max-width:520px;margin:0 0 32px}
+    .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px;padding-top:32px;border-top:1px solid var(--border)}
+    .hero-stat{text-align:center}
+    .hero-stat-value{font-size:24px;font-weight:800;letter-spacing:-0.03em;color:var(--white)}
+    .hero-stat-label{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.06em;font-weight:500}
+
+    /* ---- FEATURES BENTO ---- */
+    .section{padding:80px 0}
+    .section-header{text-align:center;margin-bottom:56px}
+    .section-label{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px}
+    .section-title{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-0.03em;margin-bottom:16px}
+    .section-desc{font-size:16px;color:var(--gray);max-width:500px;margin:0 auto;line-height:1.6}
+
+    .bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .bento-card{background:var(--bg-c);border:1px solid var(--border);border-radius:16px;padding:32px;transition:border-color 0.2s,transform 0.2s;position:relative;overflow:hidden}
+    .bento-card:hover{border-color:var(--border-h);transform:translateY(-2px)}
+    .bento-card.span-2{grid-column:span 2}
+    .bento-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+    .bento-icon svg{width:22px;height:22px}
+    .bento-icon.green{background:var(--accent-d);color:var(--accent)}
+    .bento-icon.blue{background:var(--blue-d);color:var(--blue)}
+    .bento-icon.purple{background:var(--purple-d);color:var(--purple)}
+    .bento-icon.orange{background:var(--orange-d);color:var(--orange)}
+    .bento-icon.pink{background:var(--pink-d);color:var(--pink)}
+    .bento-icon.cyan{background:var(--cyan-d);color:var(--cyan)}
+    .bento-card h3{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em}
+    .bento-card p{font-size:13px;color:var(--gray);line-height:1.6}
+    .bento-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+    .bento-tag{font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.04);color:var(--gray);border:1px solid var(--border)}
+
+    /* ---- COMMANDS SHOWCASE ---- */
+    .cmd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .cmd-card{background:var(--bg-c);border:1px solid var(--border);border-radius:12px;padding:24px;display:flex;gap:16px;transition:border-color 0.2s}
+    .cmd-card:hover{border-color:var(--border-h)}
+    .cmd-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;background:var(--bg-e)}
+    .cmd-info h4{font-size:14px;font-weight:600;margin-bottom:4px}
+    .cmd-info p{font-size:12px;color:var(--muted);line-height:1.5}
+    .cmd-prefix{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);background:var(--accent-d);padding:2px 8px;border-radius:4px;margin-top:8px;display:inline-block}
+
+    /* ---- CREATOR / CTA ---- */
+    .cta-section{padding:100px 0;text-align:center;position:relative}
+    .cta-card{background:var(--bg-c);border:1px solid var(--border);border-radius:24px;padding:64px 48px;max-width:700px;margin:0 auto;position:relative;overflow:hidden}
+    .cta-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at center,rgba(34,197,94,0.04) 0%,transparent 50%);pointer-events:none}
+    .cta-card h2{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-0.03em;margin-bottom:16px}
+    .cta-card p{font-size:15px;color:var(--gray);margin-bottom:32px;line-height:1.6}
+    .cta-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+
+    /* ---- FOOTER ---- */
+    footer{border-top:1px solid var(--border);padding:40px 0}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center}
+    .footer-left{display:flex;align-items:center;gap:8px}
+    .footer-left span{font-size:13px;color:var(--muted)}
+    .footer-right{display:flex;align-items:center;gap:24px}
+    .footer-right a{font-size:12px;color:var(--muted);transition:color 0.15s}
+    .footer-right a:hover{color:var(--white)}
+    .footer-badge{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:rgba(255,255,255,0.04);padding:4px 10px;border-radius:4px}
+
+    /* ---- PHONE PREVIEW SHOWCASE ---- */
+    .preview-section{padding:40px 0 80px;position:relative;overflow:hidden}
+    .preview-section::before{content:'';position:absolute;top:50%;left:50%;width:800px;height:800px;background:radial-gradient(circle,rgba(34,197,94,0.04) 0%,transparent 60%);transform:translate(-50%,-50%);pointer-events:none}
+    .preview-track-wrapper{position:relative;width:100%;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 8%,#000 92%,transparent 100%)}
+    .preview-track{display:flex;gap:20px;animation:scroll-phones 35s linear infinite;width:max-content;padding:24px 0}
+    .preview-track:hover{animation-play-state:paused}
+    @keyframes scroll-phones{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .phone-frame{flex-shrink:0;width:220px;background:var(--bg-c);border:1px solid var(--border);border-radius:24px;padding:6px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;position:relative}
+    .phone-frame:hover{border-color:var(--accent);transform:scale(1.03) translateY(-4px);box-shadow:0 16px 48px rgba(34,197,94,0.08),0 0 0 1px rgba(34,197,94,0.12)}
+    .phone-notch{width:60px;height:5px;background:var(--bg-e);border-radius:3px;margin:5px auto 6px;opacity:0.5}
+    .phone-screen{border-radius:18px;overflow:hidden;position:relative;aspect-ratio:9/19.5;background:#1a2e1a}
+    .phone-screen img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.4s ease}
+    .phone-screen video{width:100%;height:100%;object-fit:cover;display:block;border-radius:18px;}
+    .phone-screen img.loaded{opacity:1}
+    .phone-label{text-align:center;margin-top:10px;padding-bottom:4px}
+    .phone-label-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:3px 10px;border-radius:100px;display:inline-block}
+    .phone-label-tag.tag-green{background:var(--accent-d);color:var(--accent)}
+    .phone-label-tag.tag-blue{background:var(--blue-d);color:var(--blue)}
+    .phone-label-tag.tag-purple{background:var(--purple-d);color:var(--purple)}
+    .phone-label-tag.tag-orange{background:var(--orange-d);color:var(--orange)}
+    .phone-label-tag.tag-cyan{background:var(--cyan-d);color:var(--cyan)}
+
+    /* ---- VIDEO GALLERY SECTION ---- */
+    .video-section{padding:80px 0;background:var(--bg-s)}
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;margin-top:40px}
+    .video-phone-frame{background:var(--bg-c);border:1px solid var(--border);border-radius:24px;padding:12px;transition:all 0.3s}
+    .video-phone-frame:hover{border-color:var(--accent);transform:translateY(-5px)}
+    .video-phone-screen{border-radius:18px;overflow:hidden;aspect-ratio:9/16;background:#000;position:relative}
+    .video-phone-screen video{width:100%;height:100%;object-fit:cover}
+    .video-info{padding:16px 12px 12px}
+    .video-title{font-size:16px;font-weight:600;margin-bottom:8px;color:var(--white)}
+    .video-desc{font-size:13px;color:var(--gray);line-height:1.5}
+    .video-badge{display:inline-block;padding:4px 10px;background:var(--accent-d);color:var(--accent);border-radius:6px;font-size:11px;font-weight:600;margin-bottom:12px}
+
+    /* ---- HERO PHONE MOCKUP ---- */
+    .hero-layout{display:flex;align-items:center;gap:48px;text-align:left}
+    .hero-text{flex:1;min-width:0}
+    .hero-phone{flex-shrink:0;width:240px;position:relative}
+    .hero-phone .phone-frame{width:100%;animation:float 6s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .hero-phone-glow{position:absolute;inset:-30px;background:radial-gradient(circle,rgba(34,197,94,0.08) 0%,transparent 70%);pointer-events:none;z-index:-1}
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* ---- RESPONSIVE ---- */
+
+    /* Mobile nav dropdown */
+    .nav-links.show{display:flex;position:absolute;top:64px;left:0;right:0;background:rgba(5,5,5,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-direction:column;padding:16px 24px;gap:4px;border-bottom:1px solid var(--border)}
+    .nav-links.show a{padding:10px 0;font-size:14px}
+
+    @media(max-width:480px){
+      .container{padding:0 16px}
+      .hero{padding:100px 0 40px}
+      .hero-layout{flex-direction:column;text-align:center;gap:24px}
+      .hero-phone{width:180px}
+      .hero-text .hero-actions{justify-content:center}
+      .hero h1{font-size:28px;line-height:1.12}
+      .hero p{font-size:14px;margin-left:auto;margin-right:auto}
+      .hero-stats{grid-template-columns:repeat(2,1fr);gap:12px;margin-top:32px;padding-top:24px}
+      .hero-stat-value{font-size:20px}
+      .hero-stat-label{font-size:10px}
+      .section{padding:48px 0}
+      .section-title{font-size:24px}
+      .section-desc{font-size:14px}
+      .bento{grid-template-columns:1fr;gap:12px}
+      .bento-card{padding:24px}
+      .bento-card.span-2{grid-column:span 1}
+      .cmd-grid{grid-template-columns:1fr;gap:12px}
+      .cmd-card{padding:16px}
+      .phone-frame{width:170px}
+      .preview-track{gap:14px}
+      .preview-section{padding:24px 0 48px}
+      .section-header{margin-bottom:32px}
+      .cta-card{padding:32px 20px;border-radius:16px}
+      .cta-card h2{font-size:22px}
+      .footer-inner{flex-direction:column;gap:16px;text-align:center}
+      .footer-right{flex-wrap:wrap;justify-content:center;gap:16px}
+      .btn{padding:10px 16px;font-size:12px}
+      .video-grid{grid-template-columns:1fr}
+    }
+    @media(min-width:481px) and (max-width:768px){
+      .nav-links{display:none}
+      .mobile-menu{display:flex}
+      .hero{padding:110px 0 50px}
+      .hero-layout{flex-direction:column;text-align:center;gap:32px}
+      .hero-phone{width:200px}
+      .hero-text .hero-actions{justify-content:center}
+      .hero h1{font-size:32px}
+      .hero p{font-size:15px;margin-left:auto;margin-right:auto}
+      .hero-stats{grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+      .hero-stat-value{font-size:22px}
+      .bento{grid-template-columns:1fr}
+      .bento-card.span-2{grid-column:span 1}
+      .cmd-grid{grid-template-columns:1fr}
+      .phone-frame{width:190px}
+      .footer-inner{flex-direction:column;gap:16px;text-align:center}
+      .footer-right{flex-wrap:wrap;justify-content:center}
+      .cta-card{padding:40px 24px}
+      .video-grid{grid-template-columns:repeat(2, 1fr)}
+    }
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .mobile-menu{display:flex}
+    }
+    @media(min-width:769px) and (max-width:1024px){
+      .hero-phone{width:220px}
+      .hero-layout{gap:40px}
+      .bento{grid-template-columns:repeat(2,1fr)}
+      .bento-card.span-2{grid-column:span 2}
+      .video-grid{grid-template-columns:repeat(2, 1fr)}
+    }
+
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--border-h)}
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="nav-logo"><img src="https://files.catbox.moe/w3u2zn.png" alt="CYBERDARK"></div>
+        <div class="nav-name">CYBER DARK<span>v3.5.5</span></div>
+      </div>
+      <div class="nav-links">
+        <a href="#preview">Preview</a>
+        <a href="#features">Features</a>
+        <a href="#commands">Commands</a>
+        <a href="#videos">Videos</a>
+        <a href="#about">About</a>
+      </div>
+      <div class="nav-cta">
+        <button class="mobile-menu" aria-label="Toggle navigation menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="glow-green" style="top:-200px;left:50%;transform:translateX(-50%)"></div>
+    <div class="container">
+      <div class="hero-layout">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Active
+          </div>
+          <h1>Powerful <span class="highlight">WhatsApp Bot</span> You will Ever Need</h1>
+          <p>CYBERDARK Tech WhatsApp bot . Download media, manage groups, convert files, and automate everything.</p>
+          <div class="hero-actions">
+            <a href="http://cyberdark.site" class="btn btn-accent">
+              website
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+            </a>
+            <a href="#videos" class="btn btn-ghost">Demo</a>
+          </div>
+        </div>
+        <div class="hero-phone reveal">
+          <div class="hero-phone-glow"></div>
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="https://files.catbox.moe/ra4v47.jpg" alt="CYBERDARK menu bot info, owner, plugins count, and command categories" loading="eager">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="heroActive">--</div>
+          <div class="hero-stat-label">Active Bots</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" id="heroUsers">--</div>
+          <div class="hero-stat-label">Total Users</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">91</div>
+          <div class="hero-stat-label">Plugins</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">7</div>
+          <div class="hero-stat-label">Categories</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bot Preview Showcase -->
+  <section class="preview-section reveal" id="preview">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Live Preview</div>
+        <div class="section-title">some of the commands</div>
+        <div class="section-desc">here are some pictures of Bot running on WhatsApp. Fast and secure .</div>
+      </div>
+    </div>
+    <div class="preview-track-wrapper">
+      <div class="preview-track">
+        <!-- First set -->
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/ra4v47.jpg" alt="Overview of bot commands" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-green">Overview</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/2vw4dj.jpg" alt="AI Commands menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-blue">AI Commands</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/v7t5l6.jpg" alt="Downloader Commands menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-purple">Downloaders</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/g94uys.jpg" alt="Tools menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-orange">Tools</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/dr91v6.jpg" alt="Group Commands menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-cyan">Groups</span></div>
+        </div>
+        <!-- Duplicate set for seamless loop -->
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/ra4v47.jpg" alt="Overview of bot commands" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-green">Overview</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/2vw4dj.jpg" alt="AI Commands menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-blue">AI Commands</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/v7t5l6.jpg" alt="Downloader Commands menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-purple">Downloaders</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/nvwjne.jpg" alt="Owner Commands menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-orange">Owner</span></div>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="https://files.catbox.moe/dr91v6.jpg" alt="Group Commands menu" loading="lazy">
+          </div>
+          <div class="phone-label"><span class="phone-label-tag tag-cyan">Groups</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Gallery Section -->
+  <section class="video-section reveal" id="videos">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Video Demos</div>
+        <div class="section-title">HOW TO USE</div>
+        <div class="section-desc">WATCH HOW TO USE AND MANAGE.</div>
+      </div>
+
+      <div class="video-grid">
+        <!-- Text Maker Video -->
+        <div class="video-phone-frame">
+          <div class="phone-notch"></div>
+          <div class="video-phone-screen">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="https://files.catbox.moe/4x2iwf.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-info">
+            <div class="video-badge">Text Maker</div>
+            <div class="video-title">Text Style</div>
+            <div class="video-desc">fancy text, ASCII art, and text effects with various styles and fonts.</div>
+          </div>
+        </div>
+
+        <!-- AI Commands Video -->
+        <div class="video-phone-frame">
+          <div class="phone-notch"></div>
+          <div class="video-phone-screen">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="https://files.catbox.moe/47uzvv.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-info">
+            <div class="video-badge">AI Assistant</div>
+            <div class="video-title">AI Chat & Commands</div>
+            <div class="video-desc">GPT-4 powered conversations, AI image generation, and smart responses.</div>
+          </div>
+        </div>
+
+        <!-- Downloader Video -->
+        <div class="video-phone-frame">
+          <div class="phone-notch"></div>
+          <div class="video-phone-screen">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="https://files.catbox.moe/7bnamq.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-info">
+            <div class="video-badge">Media Downloader</div>
+            <div class="video-title">Download from All Platforms</div>
+            <div class="video-desc">Download videos, audio, and images from YouTube, Instagram, TikTok, and more.</div>
+          </div>
+        </div>
+
+        <!-- Settings Video -->
+        <div class="video-phone-frame">
+          <div class="phone-notch"></div>
+          <div class="video-phone-screen">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="https://files.catbox.moe/4olfgh.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-info">
+            <div class="video-badge">Settings</div>
+            <div class="video-title">Bot Configuration</div>
+            <div class="video-desc">Bot settings, preferences, privacy controls, and customization options.</div>
+          </div>
+        </div>
+
+        <!-- Group Commands Video -->
+        <div class="video-phone-frame">
+          <div class="phone-notch"></div>
+          <div class="video-phone-screen">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="https://files.catbox.moe/vqpn6z.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-info">
+            <div class="video-badge">Group Management</div>
+            <div class="video-title">Admin commands</div>
+            <div class="video-desc">Kick, promote, mute members, anti-link protection, and many more.</div>
+          </div>
+        </div>
+
+        <!-- Auto Commands Video -->
+        <div class="video-phone-frame">
+          <div class="phone-notch"></div>
+          <div class="video-phone-screen">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="https://files.catbox.moe/dfogya.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-info">
+            <div class="video-badge">Automation</div>
+            <div class="video-title">Auto Commands</div>
+            <div class="video-desc">Automated reply, Set Autotext, auto-status, and auto-reactions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Bento -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Features</div>
+        <div class="section-title">Best Of All times</div>
+        <div class="section-desc">From media downloading to AI chat, The WhatsApp bots has every tool you need packed into a single Commands.</div>
+      </div>
+
+      <div class="bento">
+        <div class="bento-card span-2 reveal">
+          <div class="bento-icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          </div>
+          <h3>Media Downloader</h3>
+          <p>Download videos, images, and audio from all major platforms instantly through WhatsApp. Just send a link and the bot handles the rest.</p>
+          <div class="bento-tags">
+            <span class="bento-tag">YouTube</span>
+            <span class="bento-tag">Instagram</span>
+            <span class="bento-tag">TikTok</span>
+            <span class="bento-tag">Facebook</span>
+            <span class="bento-tag">Spotify</span>
+            <span class="bento-tag">Pinterest</span>
+            <span class="bento-tag">TeraBox</span>
+            <span class="bento-tag">APK</span>
+          </div>
+        </div>
+
+        <div class="bento-card reveal">
+          <div class="bento-icon blue">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z"/></svg>
+          </div>
+          <h3>AI Assistant</h3>
+          <p>GPT-4 powered conversations with session memory. Ask anything directly in your WhatsApp chat.</p>
+          <div class="bento-tags">
+            <span class="bento-tag">GPT-4</span>
+            <span class="bento-tag">Session Memory</span>
+          </div>
+        </div>
+
+        <div class="bento-card reveal">
+          <div class="bento-icon purple">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>
+          </div>
+          <h3>Group Management</h3>
+          <p>all admin settings. Tag everyone, kick members, promote, demote, mute, lock groups, and manage join requests.</p>
+          <div class="bento-tags">
+            <span class="bento-tag">Tag All</span>
+            <span class="bento-tag">Kick</span>
+            <span class="bento-tag">Promote</span>
+            <span class="bento-tag">Antilink</span>
+            <span class="bento-tag">Mute</span>
+          </div>
+        </div>
+
+        <div class="bento-card reveal">
+          <div class="bento-icon orange">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"/></svg>
+          </div>
+          <h3>Media Converter</h3>
+          <p>Convert between formats seamlessly. Sticker maker, audio converter, text-to-speech, and view-once message recovery.</p>
+          <div class="bento-tags">
+            <span class="bento-tag">Sticker</span>
+            <span class="bento-tag">MP3</span>
+            <span class="bento-tag">TTS</span>
+            <span class="bento-tag">View Once</span>
+          </div>
+        </div>
+
+        <div class="bento-card reveal">
+          <div class="bento-icon cyan">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+          </div>
+          <h3>Smart Automation</h3>
+          <p>Auto status viewing, auto reactions, always online mode, typing indicators, auto read messages, and Anticall.</p>
+          <div class="bento-tags">
+            <span class="bento-tag">Auto Status</span>
+            <span class="bento-tag">Always Online</span>
+            <span class="bento-tag">Auto Read</span>
+          </div>
+        </div>
+
+        <div class="bento-card span-2 reveal">
+          <div class="bento-icon pink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 0 1-3-3m3 3a3 3 0 1 0 0 6h13.5a3 3 0 1 0 0-6m-16.5-3a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3m-19.5 0a4.5 4.5 0 0 1 .9-2.7L5.737 5.1a3.375 3.375 0 0 1 2.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 0 1 .9 2.7m0 0a3 3 0 0 1-3 3m0 3h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Zm-3 6h.008v.008h-.008v-.008Zm0-6h.008v.008h-.008v-.008Z"/></svg>
+          </div>
+          <h3>Automated</h3>
+          <p>Easy to use once you pair you can host it for free using bot hosting or katabump. Each user gets their session Id wich you should add in the bot used for authentication.</p>
+          <div class="bento-tags">
+            <span class="bento-tag">Multiple Bots</span>
+            <span class="bento-tag">Web Website</span>
+            <span class="bento-tag">Pairing Code</span>
+            <span class="bento-tag">Session Backup</span>
+            <span class="bento-tag">Auto-Reconnect</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Commands -->
+  <section class="section" id="commands" style="padding-bottom:40px">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Commands</div>
+        <div class="section-title">with over 100 commands</div>
+        <div class="section-desc">How To use . Every command should start with the set prefix.</div>
+      </div>
+      <div class="cmd-grid">
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#127916;</div>
+          <div class="cmd-info">
+            <h4>YouTube Download</h4>
+            <p>Download audio and video from YouTube in any quality.</p>
+            <span class="cmd-prefix">.play .song .ytmp3 .ytmp4</span>
+          </div>
+        </div>
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#128248;</div>
+          <div class="cmd-info">
+            <h4>Instagram Reel</h4>
+            <p>download reels, posts, and stories from Instagram using Bot.</p>
+            <span class="cmd-prefix">.ig</span>
+          </div>
+        </div>
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#129302;</div>
+          <div class="cmd-info">
+            <h4>AI Chat</h4>
+            <p>Ask GPT-4 anything get the answer instantly.</p>
+            <span class="cmd-prefix">.ai</span>
+          </div>
+        </div>
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#127925;</div>
+          <div class="cmd-info">
+            <h4>Music Download</h4>
+            <p>Search and download songs from platforms to WhatsApp.</p>
+            <span class="cmd-prefix">.spotify .spotifydl</span>
+          </div>
+        </div>
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#128221;</div>
+          <div class="cmd-info">
+            <h4>Sticker Maker</h4>
+            <p>Convert any image or video into a WhatsApp sticker.</p>
+            <span class="cmd-prefix">.sticker .take</span>
+          </div>
+        </div>
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#128101;</div>
+          <div class="cmd-info">
+            <h4>Group Admin</h4>
+            <p>Kick, promote, demote, mute, and manage members.</p>
+            <span class="cmd-prefix">.kick .promote .mute .antilink</span>
+          </div>
+        </div>
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#128274;</div>
+          <div class="cmd-info">
+            <h4>Privacy Controls</h4>
+            <p>Manage antidelete, last seen, profile, and read receipts.</p>
+            <span class="cmd-prefix">.online .antidelete .autoread</span>
+          </div>
+        </div>
+        <div class="cmd-card reveal">
+          <div class="cmd-icon">&#127911;</div>
+          <div class="cmd-info">
+            <h4>TikTok & Facebook</h4>
+            <p>Download videos without watermarks from TikTok and Facebook.</p>
+            <span class="cmd-prefix">.tiktok .fb</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Creator -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="cta-card reveal">
+        <div class="section-label" style="margin-bottom:24px">Created By</div>
+        <h2>404UNKOWN</h2>
+        <p>CYBERDARK is an open-source  website for WhatsApp automation. Deploy your own instance and manage multiple bot sessions from a clean web Website.</p>
+        <div class="cta-actions">
+          <a href="http://cyberdark.site" class="btn btn-accent">
+            Launch Website
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+          </a>
+          <a href="mailto: francomanucho9@gmail.com" class="btn btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+            Contact
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div class="nav-logo" style="width:32px;height:32px;border-radius:8px"><img src="https://files.catbox.moe/w3u2zn.png" alt="CYBER DARK"></div>
+          <span>CYBERDARK by 404UNKOWN </span>
+        </div>
+        <div class="footer-right">
+          <span class="footer-badge">v3.5.5</span>
+          <a href="http://cyberdark.site">Website</a>
+          <a href="mailto: francomanucho9@gmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Progressive image loading - show images smoothly as they load
+    document.querySelectorAll('.phone-screen img').forEach(function(img) {
+      if (img.complete && img.naturalHeight > 0) {
+        img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', function() { this.classList.add('loaded'); });
+        img.addEventListener('error', function() { this.style.display = 'none'; });
+      }
+    });
+
+    // Mobile nav toggle
+    var mobileMenuOpen = false;
+    document.querySelector('.mobile-menu').addEventListener('click', function() {
+      var links = document.querySelector('.nav-links');
+      mobileMenuOpen = !mobileMenuOpen;
+      if (mobileMenuOpen) {
+        links.classList.add('show');
+      } else {
+        links.classList.remove('show');
+      }
+    });
+    // Close mobile nav on link click
+    document.querySelectorAll('.nav-links a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.remove('show');
+        mobileMenuOpen = false;
+      });
+    });
+
+    // Load live stats
+    async function loadHeroStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        const active = document.getElementById('heroActive');
+        const users = document.getElementById('heroUsers');
+        if (active) active.textContent = data.activeSessions;
+        if (users) users.textContent = data.totalUsers;
+      } catch(e) {}
+    }
+    loadHeroStats();
+    setInterval(loadHeroStats, 10000);
+
+    // Video auto-play fix
+    function initVideos() {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+
+        // Try to play when video is loaded
+        video.addEventListener('loadeddata', function() {
+          this.play().catch(e => {
+            console.log('Video autoplay prevented:', e.name);
+          });
+        });
+      });
+
+      // Auto-play videos when they enter viewport
+      const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const video = entry.target.querySelector('video');
+            if (video) {
+              video.play().catch(e => {
+                console.log('Video autoplay prevented on scroll:', e.name);
+              });
+            }
+          }
+        });
+      }, { threshold: 0.5 });
+
+      document.querySelectorAll('.video-phone-screen').forEach(screen => {
+        videoObserver.observe(screen);
+      });
+    }
+
+    // Initialize videos when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initVideos, 1000);
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Video play on click fallback
+    document.querySelectorAll('.video-phone-screen').forEach(screen => {
+      screen.addEventListener('click', function() {
+        const video = this.querySelector('video');
+        if (video) {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
