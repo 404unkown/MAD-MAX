@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MAD-MAX BOT STATUS</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100%;
+      overflow: auto;
+    }
+
+    body {
+      background: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    header {
+      background: rgba(17, 17, 51, 0.85);
+      padding: 16px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff4444;
+      border-bottom: 1px solid #222;
+      z-index: 2;
+      position: relative;
+      text-shadow: 0 0 10px rgba(255,68,68,0.5);
+    }
+
+    .status-bar {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      margin: 15px;
+      border-radius: 10px;
+      border: 1px solid #ff4444;
+      z-index: 2;
+      position: relative;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .status-item {
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .status-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .status-value {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 5px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .online {
+      color: #00ff00;
+      text-shadow: 0 0 10px rgba(0,255,0,0.5);
+    }
+
+    .offline {
+      color: #ff4444;
+      text-shadow: 0 0 10px rgba(255,68,68,0.5);
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .card {
+      background: rgba(26, 26, 47, 0.9);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      width: 30%;
+      min-width: 120px;
+      max-width: 140px;
+      transition: all 0.3s;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      border: 1px solid #333;
+    }
+
+    .card:hover {
+      background: rgba(42, 42, 68, 0.95);
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(255,68,68,0.3);
+      border-color: #ff4444;
+    }
+
+    .card a {
+      color: #ff4444;
+      text-decoration: none;
+      display: block;
+      margin-top: 5px;
+      font-size: 13px;
+    }
+
+    .card h3 {
+      margin: 8px 0 4px;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 11px;
+      color: #ccc;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 8px;
+      background: rgba(13, 13, 42, 0.9);
+      font-size: 11px;
+      color: #ccc;
+      z-index: 2;
+      position: relative;
+    }
+
+    .update-time {
+      font-size: 10px;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <header>MAD-MAX BOT STATUS</header>
+
+  <div class="status-bar" id="statusBar">
+    <div class="status-item">
+      <div class="status-label">Bot Status</div>
+      <div class="status-value online" id="botStatus">● ONLINE</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Uptime</div>
+      <div class="status-value" id="uptime">00:00:00</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Response Time</div>
+      <div class="status-value" id="responseTime">0ms</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Memory Usage</div>
+      <div class="status-value" id="memoryUsage">0MB</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>MAD-MAX BOT</h3>
+      <p>Main WhatsApp Bot</p>
+      <a href="https://github.com/404unkown/MAD-MAX" target="_blank">REPOSITORY</a>
+    </div>
+    <div class="card">
+      <h3>PAIR CODE</h3>
+      <p>Get Session Code</p>
+      <a href="https://pair-web-1.onrender.com/pair" target="_blank">PAIR SITE</a>
+    </div>
+    <div class="card">
+      <h3>Contact</h3>
+      <p>DEV</p>
+      <a href="https://wa.me/254104158915" target="_blank">WHATSAPP</a>
+    </div>
+    <div class="card">
+      <h3>GITHUB</h3>
+      <p>Follow Developer</p>
+      <a href="https://github.com/404unkown" target="_blank">PROFILE</a>
+    </div>
+    <div class="card">
+      <h3>CHANNEL 1</h3>
+      <p>Main Updates</p>
+      <a href="https://whatsapp.com/channel/0029Vb5ytZEE50UbwV7xBv1k" target="_blank">JOIN</a>
+    </div>
+    <div class="card">
+      <h3>CHANNEL 2</h3>
+      <p>Bot News</p>
+      <a href="https://whatsapp.com/channel/120363423092906606@newsletter" target="_blank">JOIN</a>
+    </div>
+    <div class="card">
+      <h3>COMMANDS</h3>
+      <p>Bot Command List</p>
+      <a href="#" onclick="alert('.menu in WhatsApp')">VIEW</a>
+    </div>
+    <div class="card">
+      <h3>SUPPORT</h3>
+      <p>Get Help</p>
+      <a href="https://wa.me/254104158915?text=Need%20help%20with%20MAD-MAX%20bot" target="_blank">CONTACT</a>
+    </div>
+    <div class="card">
+      <h3>DONATE</h3>
+      <p>Support Development</p>
+      <a href="#" onclick="alert('Contact owner for support')">DONATE</a>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 MAD-MAX BOT. All rights reserved.<br>
+    <span class="update-time" id="lastUpdate">Loading...</span>
+  </footer>
+
+  <!-- Load particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    // Particles configuration
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 100,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": ["#ff4444", "#ff6666", "#ff8888", "#ff0000", "#ff2222"] },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.6 },
+        "size": { "value": 3 },
+        "line_linked": {
+          "enable": true,
+          "distance": 120,
+          "color": "#ff4444",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Variables for real-time counting
+    let botStartTime = Date.now();
+    let lastUptimeSeconds = 0;
+
+    // Bot status update function
+    async function updateBotStatus() {
+      try {
+        const startTime = Date.now();
+        const response = await fetch('/api/bot-status');
+        const endTime = Date.now();
+        const responseTime = endTime - startTime;
+
+        if (response.ok) {
+          const data = await response.json();
+
+          // Update bot status
+          const statusElement = document.getElementById('botStatus');
+          if (data.online) {
+            statusElement.className = 'status-value online';
+            statusElement.innerHTML = '● ONLINE';
+            
+            // Store the start time for real-time counting
+            if (data.uptimeRaw) {
+              // If API provides raw uptime data, use it to calculate start time
+              const totalSeconds = data.uptimeRaw.days * 86400 + 
+                                  data.uptimeRaw.hours * 3600 + 
+                                  data.uptimeRaw.minutes * 60 + 
+                                  data.uptimeRaw.seconds;
+              botStartTime = Date.now() - (totalSeconds * 1000);
+            } else if (data.uptime) {
+              // Parse formatted uptime as fallback (format: 123ms:45s:23m:12h:2d)
+              const parts = data.uptime.split(':');
+              if (parts.length === 5) {
+                const ms = parseInt(parts[0]) || 0;
+                const s = parseInt(parts[1]) || 0;
+                const m = parseInt(parts[2]) || 0;
+                const h = parseInt(parts[3]) || 0;
+                const d = parseInt(parts[4]) || 0;
+                const totalSeconds = d * 86400 + h * 3600 + m * 60 + s + (ms / 1000);
+                botStartTime = Date.now() - (totalSeconds * 1000);
+              }
+            }
+          } else {
+            statusElement.className = 'status-value offline';
+            statusElement.innerHTML = '● OFFLINE';
+          }
+
+          // Update memory usage
+          document.getElementById('memoryUsage').innerText = data.memory || '0MB';
+
+          // Update last update time
+          document.getElementById('lastUpdate').innerText = 'Last updated: ' + new Date().toLocaleTimeString();
+        }
+      } catch (error) {
+        console.error('Failed to fetch bot status:', error);
+        document.getElementById('botStatus').className = 'status-value offline';
+        document.getElementById('botStatus').innerHTML = '● OFFLINE';
+      }
+    }
+
+    // Function to update uptime in real-time
+    function updateUptimeClock() {
+      const uptimeElement = document.getElementById('uptime');
+      const statusElement = document.getElementById('botStatus');
+      
+      // Only update if bot is online
+      if (statusElement.innerHTML.includes('ONLINE')) {
+        const currentUptime = Math.floor((Date.now() - botStartTime) / 1000);
+        
+        const days = Math.floor(currentUptime / 86400);
+        const hours = Math.floor((currentUptime % 86400) / 3600);
+        const minutes = Math.floor((currentUptime % 3600) / 60);
+        const seconds = currentUptime % 60;
+        
+        if (days > 0) {
+          uptimeElement.innerText = `${days}d ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        } else {
+          uptimeElement.innerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+      }
+    }
+
+    // Update API data every 30 seconds (less frequent)
+    updateBotStatus();
+    setInterval(updateBotStatus, 30000);
+
+    // Update clock every second (smooth counting)
+    setInterval(updateUptimeClock, 1000);
+  </script>
+</body>
+</html>

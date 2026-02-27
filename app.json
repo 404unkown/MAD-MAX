@@ -1,0 +1,168 @@
+{
+  "name": "MAD-MAX",
+  "description": "MAD-MAX WhatsApp Bot",
+  "repository": "https://github.com/404unkown/MAD-MAX",
+  "env": {
+    "PREFIX": {
+      "description": "Bot command prefix",
+      "value": ".",
+      "required": false
+    },
+    "DEV": {
+      "description": "Your WhatsApp number with country code",
+      "value": "254769769295",
+      "required": true
+    },
+    "SESSION": {
+      "description": "Your MEGA.nz session ID (MAD-MAX;;;file-id#key)",
+      "required": true
+    },
+    "BOT_NAME": {
+      "description": "Your bot name",
+      "value": "MAD-MAX",
+      "required": false
+    },
+    "OWNER_NAME": {
+      "description": "Your name",
+      "value": "NUCH",
+      "required": false
+    },
+    "MODE": {
+      "description": "Bot mode (public/private)",
+      "value": "public",
+      "required": false
+    },
+    "AUTOBIO": {
+      "description": "Auto update bio (TRUE/FALSE)",
+      "value": "FALSE",
+      "required": false
+    },
+    "ANTIFOREIGN": {
+      "description": "Remove foreign numbers (TRUE/FALSE)",
+      "value": "FALSE",
+      "required": false
+    },
+    "AUTORECORD": {
+      "description": "Auto recording indicator (TRUE/FALSE)",
+      "value": "FALSE",
+      "required": false
+    },
+    "CODE": {
+      "description": "Your country code",
+      "value": "254",
+      "required": false
+    },
+    "STICKER_PACKNAME": {
+      "description": "Sticker pack name",
+      "value": "MAD-MAX",
+      "required": false
+    },
+    "STICKER_AUTHOR": {
+      "description": "Sticker author name",
+      "value": "NUCH",
+      "required": false
+    },
+    "NEWSLETTER_JID": {
+      "description": "Newsletter JID for forwarding",
+      "value": "120363401269012709@newsletter",
+      "required": false
+    },
+    "NEWSLETTER_NAME": {
+      "description": "Newsletter display name",
+      "value": "MAD-MAX",
+      "required": false
+    },
+    "GIPHY_API_KEY": {
+      "description": "Giphy API key for GIF searches",
+      "value": "DCXQ4c4VNyLcsQZc4lV3HcRkK1W60MlK",
+      "required": false
+    },
+    "OMDB_API_KEY": {
+      "description": "OMDB API key for movie info",
+      "value": "742b2d09",
+      "required": false
+    },
+    "NEWS_API_KEY": {
+      "description": "NewsAPI key for news headlines",
+      "value": "dcd720a6f1914e2d9dba9790c188c08c",
+      "required": false
+    },
+    "WEATHER_API_KEY": {
+      "description": "OpenWeatherMap API key",
+      "value": "",
+      "required": false
+    },
+    "TENOR_API_KEY": {
+      "description": "Tenor API key for emoji mix",
+      "value": "AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ",
+      "required": false
+    },
+    "HEROKU_APP_NAME": {
+      "description": "Your Heroku app name (for auto-updates)",
+      "required": false
+    },
+    "HEROKU_API_KEY": {
+      "description": "Your Heroku API key (for auto-updates)",
+      "required": false
+    },
+    "GITHUB_USER": {
+      "description": "GitHub username",
+      "value": "404unkown",
+      "required": false
+    },
+    "GITHUB_REPO": {
+      "description": "GitHub repository",
+      "value": "MAD-MAX",
+      "required": false
+    },
+    "GITHUB_BRANCH": {
+      "description": "GitHub branch",
+      "value": "main",
+      "required": false
+    },
+    "VERSION": {
+      "description": "Bot version",
+      "value": "2.0.0",
+      "required": false
+    },
+    "AUTOVIEW_STATUS": {
+      "description": "Auto view status (TRUE/FALSE)",
+      "value": "FALSE",
+      "required": false
+    },
+    "AUTOLIKE_STATUS": {
+      "description": "Auto like status (TRUE/FALSE)",
+      "value": "FALSE",
+      "required": false
+    },
+    "AUTOREJECT_CALL": {
+      "description": "Auto reject calls (TRUE/FALSE)",
+      "value": "FALSE",
+      "required": false
+    },
+    "AUTO_VOICE_REPLY": {
+      "description": "Auto voice reply (TRUE/FALSE)",
+      "value": "FALSE",
+      "required": false
+    },
+    "WARN_COUNT": {
+      "description": "Warning count",
+      "value": "3",
+      "required": false
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ]
+}
