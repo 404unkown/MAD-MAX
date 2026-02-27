@@ -1,4 +1,4 @@
-const settings = require('../set');
+const set = require('../set');
 
 async function ownerCommand(client, chatId, message, args, sender, pushName, isOwnerSimple) {
     try {
