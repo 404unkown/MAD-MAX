@@ -5,7 +5,7 @@
 
 // Session Configuration
 const sessionName = 'session';
-const session = process.env.SESSION || 'MAD-MAX;;;r4px0LKR#7h1-L4nCjUFpwNog4E1lZuNnO0SyCPFMm9OYTWe2xgw';
+const session = process.env.SESSION || '';
 
 // Bot Identity
 const prefix = process.env.PREFIX || '.';
