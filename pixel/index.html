@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CYBER BOT</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Particle background -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Channel Follow Modal -->
+  <div id="channelModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-bell"></i> Important Notice</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <p>To use CYBER BOT, you must follow our official channels for updates and support.</p>
+        <div class="channel-list">
+          <a href="https://whatsapp.com/channel/0029Vb0Gf5cDzgT3OIIc4C0b" target="_blank" class="channel-item">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp Channel</span>
+          </a>
+          <a href="https://t.me/cyber_dominion_tech" target="_blank" class="channel-item">
+            <i class="fab fa-telegram"></i>
+            <span>Telegram Channel</span>
+          </a>
+          <a href="https://youtube.com/@cyberdominiontech" target="_blank" class="channel-item">
+            <i class="fab fa-youtube"></i>
+            <span>YouTube Channel</span>
+          </a>
+          <a href="https://t.me/cyber_hacking_group" target="_blank" class="channel-item">
+            <i class="fab fa-telegram"></i>
+            <span>Telegram Group</span>
+          </a>
+        </div>
+        <div class="modal-buttons">
+          <button class="btn modal-btn" id="confirmFollow">
+            <i class="fas fa-check"></i> I've Followed All Channels
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav id="nav">
+    <div class="brand">
+      <div class="logo spinning">C</div>
+      <div>
+        <div style="font-weight:800; font-family: 'Playfair Display', serif;">CYBER BOT</div>
+        <div style="font-size:0.78rem;color:var(--muted)">WhatsApp Bot</div>
+      </div>
+    </div>
+    
+    <!-- Navigation Links -->
+    <div class="nav-links" id="navLinks">
+      <a href="#features"><i class="fas fa-star"></i> Features</a>
+      <a href="#connect"><i class="fas fa-link"></i> Connect</a>
+      <a href="#links"><i class="fas fa-external-link-alt"></i> Links</a>
+    </div>
+    
+    <!-- Hamburger Menu Button -->
+    <button class="nav-toggle" id="navToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+
+  <header>
+    <h1><span class="logo spinning">C</span> CYBER BOT</h1>
+    <p>A modern WhatsApp bot with powerful features, Made by <strong>MR-CYBER × MR-BRYAN</strong>.</p>
+
+    <!-- Stats Container -->
+    <div class="stats-container">
+      <div class="stat-card active">
+        <i class="fas fa-signal"></i>
+        <div>
+          <div class="stat-value" id="activeSockets">0</div>
+          <div class="stat-label">Active Sockets</div>
+        </div>
+      </div>
+
+      <div class="stat-card total">
+        <i class="fas fa-users"></i>
+        <div>
+          <div class="stat-value" id="totalUsers">0</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="features" class="card">
+      <h2><i class="fas fa-star"></i> Features</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-reply"></i>
+          </div>
+          <h3>Auto Replies</h3>
+          <p>Smart automated responses to messages based on customizable triggers.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-image"></i>
+          </div>
+          <h3>Media Tools</h3>
+          <p>Download, convert, and manage media files with ease.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-puzzle-piece"></i>
+          </div>
+          <h3>Commands System</h3>
+          <p>Extend functionality with custom Commands and scripts.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Security</h3>
+          <p>Built-in security features to protect your privacy and data.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="connect" class="card">
+      <h2><i class="fas fa-link"></i> Connect to WhatsApp</h2>
+      
+      <div class="instructions">
+        <h3>📋 Important Information:</h3>
+        <div style="background: rgba(255, 68, 68, 0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
+          <p style="color: #ff4444; font-weight: bold;">👑 OWNER NUMBER:</p>
+          <p>The number you enter as OWNER will have full control and access to owner-only commands.</p>
+        </div>
+        <div style="background: rgba(0, 255, 157, 0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
+          <p style="color: #00ff9d; font-weight: bold;">📱 PAIRING NUMBER:</p>
+          <p>The number you enter for PAIRING is the WhatsApp that will run the bot.</p>
+        </div>
+      </div>
+
+      <div class="input-box">
+        <!-- OWNER NUMBER SECTION -->
+        <div style="margin-bottom: 25px; padding: 15px; background: rgba(255, 68, 68, 0.05); border-radius: 15px; border-left: 4px solid #ff4444;">
+          <h3 style="color: #ff4444; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-crown"></i> Owner Configuration
+          </h3>
+          <div class="input-group" style="margin-bottom: 10px;">
+            <i class="fas fa-user"></i>
+            <input type="text" id="ownerName" placeholder="Owner Name (e.g. MR-CYBER)" />
+          </div>
+          <div class="input-group">
+            <i class="fas fa-phone"></i>
+            <input type="tel" id="ownerNumber" placeholder="Owner Phone (e.g. 254700123456)" />
+          </div>
+          <p style="font-size: 0.8rem; color: #888; margin-top: 8px;">
+            <i class="fas fa-info-circle"></i> This person will have access to owner commands
+          </p>
+        </div>
+
+        <!-- PAIRING NUMBER SECTION -->
+        <div style="margin-bottom: 25px; padding: 15px; background: rgba(0, 255, 157, 0.05); border-radius: 15px; border-left: 4px solid #00ff9d;">
+          <h3 style="color: #00ff9d; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-phone"></i> Pairing Configuration
+          </h3>
+          <div class="input-group">
+            <i class="fas fa-phone"></i>
+            <input type="tel" id="phone" placeholder="Number to Pair (e.g. 254700123456)" />
+          </div>
+          <p style="font-size: 0.8rem; color: #888; margin-top: 8px;">
+            <i class="fas fa-info-circle"></i> This WhatsApp will run the bot
+          </p>
+        </div>
+
+        <!-- REQUEST BUTTON -->
+        <button class="btn" id="requestPairing" style="width: 100%; padding: 18px; font-size: 1.1rem;">
+          <i class="fas fa-key"></i> Request Pairing Code
+        </button>
+      </div>
+      
+      <div id="status"></div>
+
+      <!-- Quick Info -->
+      <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 0.9rem;">
+        <p><i class="fas fa-check-circle" style="color: #00ff9d;"></i> Owner and pairing number can be the same or different</p>
+        <p><i class="fas fa-check-circle" style="color: #00ff9d;"></i> Owner will have access to: .autoread, .autorecording, .autotyping</p>
+        <p><i class="fas fa-check-circle" style="color: #00ff9d;"></i> Make sure to include country code (e.g., 254 for Kenya)</p>
+      </div>
+    </section>
+
+    <section id="links" class="card">
+      <h2><i class="fas fa-external-link-alt"></i> Links</h2>
+      <div class="link-grid">
+        <a class="btn btn-secondary" href="https://whatsapp.com/channel/0029Vb0Gf5cDzgT3OIIc4C0b" target="_blank">
+          <i class="fab fa-whatsapp"></i> WhatsApp Channel
+        </a>
+        <a class="btn btn-secondary" href="https://t.me/cyber_dominion_tech" target="_blank">
+          <i class="fab fa-telegram"></i> Telegram Channel
+        </a>
+        <a class="btn btn-secondary" href="https://youtube.com/@404tech" target="_blank">
+          <i class="fab fa-youtube"></i> YouTube Channel
+        </a>
+        <a class="btn btn-secondary" href="https://t.me/cyber_hacking_group" target="_blank">
+          <i class="fab fa-telegram"></i> Telegram Group
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> 2025 MR CYBER · CYBER BOT
+  </footer>
+
+  <!-- socket.io client -->
+  <script src="/socket.io/socket.io.js"></script>
+  <!-- frontend logic -->
+  <script src="scripts.js"></script>
+  
+</body>
+</html>
